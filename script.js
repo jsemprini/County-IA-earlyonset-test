@@ -252,7 +252,9 @@ function renderMap(rows, valueCol, outcome, period, site, sex) {
       visible: false,
       showcountries: false,
       showlakes: false,
-      showland: true
+      showland: true,
+      landcolor: "white",
+      bgcolor: "white"
     },
     paper_bgcolor: "white",
     plot_bgcolor: "white"
