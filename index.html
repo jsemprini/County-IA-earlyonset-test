@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iowa County Early-Onset Cancer Explorer</title>
+
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h2>Iowa County Early-Onset Cancer Explorer</h2>
+  <p class="subtitle">
+    Interactive county map with filters for site, sex, outcome, and period.
+  </p>
+
+  <div class="controls">
+    <label for="siteSelect">Site:</label>
+    <select id="siteSelect"></select>
+
+    <label for="sexSelect">Sex:</label>
+    <select id="sexSelect"></select>
+
+    <label for="outcomeSelect">Outcome:</label>
+    <select id="outcomeSelect">
+      <option value="Cancer">Cancer</option>
+      <option value="Population">Population</option>
+    </select>
+
+    <label for="periodSelect">Period:</label>
+    <select id="periodSelect">
+      <option value="Percentage Change">Percentage Change</option>
+      <option value="2000-2011">2000-2011</option>
+      <option value="2012-2022">2012-2022</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <div id="chart"></div>
+    <div id="table"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
