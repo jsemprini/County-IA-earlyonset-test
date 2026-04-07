@@ -53,6 +53,10 @@ async function loadData() {
   }
 }
 
+function uniqueSorted(values) {
+  return [...new Set(values.filter(v => v !== undefined && v !== null && v !== ""))].sort();
+}
+
 function populateFilters() {
   const sexOptions = uniqueSorted(countyData.map(d => d.Sex));
   const siteOptions = uniqueSorted(countyData.map(d => d.Site));
@@ -72,21 +76,12 @@ function populateFilters() {
   });
 
   // Set defaults similar to your notebook workflow if present
-  if (sexOptions.includes("Both")) {
-    sexSelect.value = "Both";
-  } else if (sexOptions.length > 0) {
-    sexSelect.value = sexOptions[0];
-  }
-
-  if (siteOptions.includes("All Sites")) {
-    siteSelect.value = "All Sites";
-  } else if (siteOptions.length > 0) {
-    siteSelect.value = siteOptions[0];
-  }
-
+  if (sexOptions.includes("Both")) sexSelect.value = "Both";
+  if (siteOptions.length > 0) siteSelect.value = siteOptions[0];
   outcomeSelect.value = "Cancer";
   periodSelect.value = "Percentage Change";
 }
+
 function cleanNumeric(value) {
   if (value === null || value === undefined) return null;
   const s = String(value).trim();
@@ -257,9 +252,7 @@ function renderMap(rows, valueCol, outcome, period, site, sex) {
       visible: false,
       showcountries: false,
       showlakes: false,
-      showland: true, 
-      landcolor: "white",
-      bgcolor: "white"
+      showland: true
     },
     paper_bgcolor: "white",
     plot_bgcolor: "white"
