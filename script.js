@@ -33,12 +33,10 @@ async function loadData() {
       skipEmptyLines: true
     }).data;
 
-    // Clean FIPS immediately
     countyData.forEach(d => {
       d.FIPS = String(d.FIPS || "").padStart(5, "0");
     });
 
-    // Keep Iowa counties only
     iowaGeoJSON = {
       type: "FeatureCollection",
       features: geojson.features.filter(f => String(f.id).startsWith("19"))
@@ -61,6 +59,9 @@ function populateFilters() {
   const sexOptions = uniqueSorted(countyData.map(d => d.Sex));
   const siteOptions = uniqueSorted(countyData.map(d => d.Site));
 
+  sexSelect.innerHTML = "";
+  siteSelect.innerHTML = "";
+
   sexOptions.forEach(v => {
     const opt = document.createElement("option");
     opt.value = v;
@@ -75,9 +76,18 @@ function populateFilters() {
     siteSelect.add(opt);
   });
 
-  // Set defaults similar to your notebook workflow if present
-  if (sexOptions.includes("Both")) sexSelect.value = "Both";
-  if (siteOptions.length > 0) siteSelect.value = siteOptions[0];
+  if (sexOptions.includes("Both")) {
+    sexSelect.value = "Both";
+  } else if (sexOptions.length > 0) {
+    sexSelect.value = sexOptions[0];
+  }
+
+  if (siteOptions.includes("All Sites")) {
+    siteSelect.value = "All Sites";
+  } else if (siteOptions.length > 0) {
+    siteSelect.value = siteOptions[0];
+  }
+
   outcomeSelect.value = "Cancer";
   periodSelect.value = "Percentage Change";
 }
@@ -180,7 +190,7 @@ function renderMap(rows, valueCol, outcome, period, site, sex) {
   let colorscale;
   let zmin;
   let zmax;
-  let colorbarTitle = `${outcome}<br>${period}`;
+  const colorbarTitle = `${outcome}<br>${period}`;
 
   if (period === "Percentage Change") {
     const maxAbs = Math.max(...validRows.map(d => Math.abs(d.value)), 1);
@@ -252,7 +262,7 @@ function renderMap(rows, valueCol, outcome, period, site, sex) {
       visible: false,
       showcountries: false,
       showlakes: false,
-      showland: true, 
+      showland: true,
       landcolor: "white",
       bgcolor: "white"
     },
@@ -260,7 +270,10 @@ function renderMap(rows, valueCol, outcome, period, site, sex) {
     plot_bgcolor: "white"
   };
 
-  Plotly.newPlot(chartDiv, [trace], layout, { responsive: true, displayModeBar: false });
+  Plotly.newPlot(chartDiv, [trace], layout, {
+    responsive: true,
+    displayModeBar: false
+  });
 }
 
 function renderTable(rows, valueCol, outcome, period) {
