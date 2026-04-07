@@ -76,11 +76,20 @@ function populateFilters() {
   });
 
   // Set defaults similar to your notebook workflow if present
-  if (sexOptions.includes("Both")) sexSelect.value = "Both";
-  if (siteOptions.length > 0) siteSelect.value = siteOptions[0];
-  outcomeSelect.value = "Cancer";
-  periodSelect.value = "Percentage Change";
+if (sexOptions.includes("Both")) {
+  sexSelect.value = "Both";
+} else if (sexOptions.length > 0) {
+  sexSelect.value = sexOptions[0];
 }
+
+if (siteOptions.includes("All Sites")) {
+  siteSelect.value = "All Sites";
+} else if (siteOptions.length > 0) {
+  siteSelect.value = siteOptions[0];
+}
+
+outcomeSelect.value = "Cancer";
+periodSelect.value = "Percentage Change";
 
 function cleanNumeric(value) {
   if (value === null || value === undefined) return null;
